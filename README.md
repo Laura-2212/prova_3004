@@ -1,56 +1,74 @@
 # prova_3004
 
-A new Flutter project.
+## link do figma
+https://www.figma.com/proto/jZDjRYxgWbFcks4VeFpAm6/Sem-t%C3%ADtulo?node-id=0-1&t=ipwf5ze42d1NTVMc-1 
+ ## 1. Arquitetura do Projeto
+O projeto foi estruturado seguindo o padrão de separação de responsabilidades (Clean Code), facilitando a manutenção e leitura:
 
-# Link do figma
-https://www.figma.com/proto/jZDjRYxgWbFcks4VeFpAm6/Sem-t%C3%ADtulo?node-id=0-1&t=Wl97TafDpxWw5gKH-1 
-## 2. Gerenciamento de Estado (fitness_provider.dart)
-Utiliza a classe ChangeNotifier para gerenciar os dados globais do app, como informações do usuário, tema e a lista de atividades.
+Models: Definição das classes de dados.
+
+Providers: Lógica de negócio e estado global.
+
+Pages: Telas principais do sistema.
+
+Widgets: Componentes reutilizáveis de interface.
+
+## 2. Gerenciamento de Estado (app_state.dart)
+Utiliza o pacote Provider com ChangeNotifier para centralizar o controle de dados sem a necessidade de passar parâmetros manualmente entre telas.
 
 Principais Funcionalidades:
-Getters: Filtram atividades pendentes e concluídas em tempo real.
 
-Cálculo de Calorias: Baseado no número de atividades concluídas (20 kcal por item).
+Filtros em Tempo Real: Getters que separam a lista mestre de atividades em pendentes e concluidas.
 
-Ações: Adicionar, excluir, alternar status (concluído/pendente) e atualizar perfil.
+Sincronização de Perfil: Armazena o nome do usuário e a meta semanal definidos na entrada ou ajustes.
 
-Reset: Função resetProgress() que limpa todos os dados para o estado inicial.
+Sistema de Tema: Variável booleana isDarkMode que injeta o estilo visual em toda a árvore de widgets.
+
+Persistência de Ação: Métodos para adicionar tarefas personalizadas, marcar como concluído e redefinir o progresso total.
 
 ## 3. Componentes de Interface (Widgets)
-ActivityCard (activity_card.dart)
-Widget responsável por exibir individualmente cada tarefa.
+ActivityTile (activity_tile.dart)
+Widget responsável por exibir a atividade de forma compacta.
 
-Dinâmica de Cores: Altera o tom de verde/cinza dependendo do modo (claro/escuro) e do status da tarefa.
+Visual: Estilo "pílula" cinza seguindo o protótipo do Figma.
 
-Interações: Possui botões para deletar a tarefa e para marcar como concluída.
+Feedback: Ícones dinâmicos que mudam de estado (checkbox vazio para check preenchido) ao interagir.
 
-DashboardStats (dashboard_stats.dart)
-Exibe o resumo do progresso do usuário no topo da tela inicial.
+CustomDrawer (custom_drawer.dart)
+Menu lateral para navegação secundária.
 
-Mostra contador de concluídas vs pendentes.
+Cabeçalho Dinâmico: Exibe o nome do usuário em tempo real usando um Consumer.
 
-Exibe calorias queimadas e meta semanal.
+Links Rápidos: Atalhos para Dashboard, Atividades, Configurações e Ajuda.
 
-HelpSection (help_section.dart)
-Uma seção de FAQ (perguntas frequentes) que utiliza ExpansionTile para organizar informações de ajuda de forma compacta.
+HelpSection (help_page.dart)
+Central de suporte ao usuário.
+
+Organização: Utiliza ExpansionTile para criar um FAQ sanfonado, economizando espaço em tela.
 
 ## 4. Telas Principais
-MainScaffold (main.dart)
-O coração da navegação do app.
+WelcomePage (welcome_page.dart)
+Porta de entrada do aplicativo.
 
-BottomNavigationBar: Alterna entre as abas "Início", "Atividades" e "Ajustes".
+Fluxo: Captura o nome do usuário via TextField e o salva no Provider antes de liberar o acesso à navegação principal.
 
-Integração de Tema: O MaterialApp observa o isDarkMode do Provider para alternar entre ThemeData.light() e ThemeData.dark().
+MainNavigation (main.dart / main_navigation.dart)
+O hub central do aplicativo.
 
-Diálogos de Edição: Contém funções auxiliares para abrir pop-ups de edição de nome e meta.
+BottomNavigationBar: Gerencia a troca de abas entre Dashboard, Atividades e Ajustes.
 
-ActivitiesPage (activities_screen.dart)
-A tela de gerenciamento de tarefas.
+IndexedStack: Técnica utilizada para manter o estado das telas (scroll e inputs) salvo ao alternar entre as abas.
 
-Entrada de Dados: TextField com botão de adição rápida.
+DashboardPage (dashboard_page.dart)
+Painel de indicadores de desempenho.
 
-Modos de Visualização: Suporta alternância dinâmica entre:
+Layout: Organizado em blocos de informação (Cards).
 
-ListView: Ideal para leitura detalhada e listas longas.
+Métricas: Exibe o total de calorias calculadas, o percentual da meta semanal e o resumo de tarefas.
 
-GridView: Ideal para uma visão panorâmica em blocos (colunas).
+ActivitiesPage (activities_page.dart)
+A tela de interação principal para os exercícios.
+
+TabBarView: Divide a visualização entre tarefas "Pendentes" e "Concluídas".
+
+Input Dinâmico: Campo de texto no topo que permite a criação de novas tarefas personalizadas instantaneamente.

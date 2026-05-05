@@ -1,7 +1,6 @@
-class Activity {
-  final String id;
-  String title;
-  bool isCompleted;
+class Atividade {
+  final String nome;
+  bool concluida;
 
-  Activity({required this.id, required this.title, this.isCompleted = false});
+  Atividade({required this.nome, this.concluida = false});
 }
