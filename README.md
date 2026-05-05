@@ -7,7 +7,7 @@ O projeto foi estruturado seguindo o padrão de separação de responsabilidades
 
 Models: Definição das classes de dados.
 
-Providers: Lógica de negócio e estado global.
+Providers: Lógica de negócio e estado.
 
 Pages: Telas principais do sistema.
 
